@@ -9,7 +9,7 @@
 namespace Website\Application\Models;
 
 
-use Website\Application\ModelInterface;
+use Website\Application\Interfaces\ModelInterface;
 
 class IndexModel implements ModelInterface
 {

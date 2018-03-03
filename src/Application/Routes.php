@@ -9,7 +9,7 @@
 namespace Website\Application;
 
 
-use Website\IO\FileStream as FileSystem;
+use Website\IO\FileOperator as FileSystem;
 
 class Routes
 {

@@ -8,8 +8,8 @@
 
 namespace Website\Application\Controllers;
 
-use Website\Application\ControllerInterface;
-use Website\Application\ModelInterface;
+use Website\Application\Interfaces\ControllerInterface;
+use Website\Application\Interfaces\ModelInterface;
 
 class IndexController implements ControllerInterface
 {

@@ -9,7 +9,7 @@
 namespace Website\Database;
 
 
-use Website\IO\FileStream as FileSystem;
+use Website\IO\FileOperator as FileSystem;
 use Illuminate\Database\Capsule\Manager as Database;
 
 class Connection

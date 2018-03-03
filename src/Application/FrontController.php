@@ -10,6 +10,9 @@ namespace Website\Application;
 
 
 use Flight;
+use Website\Application\Interfaces\ModelInterface;
+use Website\Application\Interfaces\ControllerInterface;
+use Website\Application\Interfaces\ViewInterface;
 
 class FrontController
 {

@@ -9,7 +9,7 @@
 namespace Website\IO;
 
 
-class FileStream
+class FileOperator
 {
 
     /**

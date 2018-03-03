@@ -6,7 +6,7 @@
  * Time: 02:18
  */
 
-namespace Website\Application;
+namespace Website\Application\Interfaces;
 
 
 interface ControllerInterface

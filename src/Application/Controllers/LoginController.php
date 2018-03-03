@@ -9,8 +9,8 @@
 namespace Website\Application\Controllers;
 
 
-use Website\Application\ControllerInterface;
-use Website\Application\ModelInterface;
+use Website\Application\Interfaces\ControllerInterface;
+use Website\Application\Interfaces\ModelInterface;
 use Website\Sessions;
 use Website\Users;
 

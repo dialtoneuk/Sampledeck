@@ -6,7 +6,7 @@
  * Time: 02:19
  */
 
-namespace Website\Application;
+namespace Website\Application\Interfaces;
 
 
 interface ModelInterface

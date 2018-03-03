@@ -9,8 +9,8 @@
 namespace Website\Application\Views;
 
 
-use Website\Application\ModelInterface;
-use Website\Application\ViewInterface;
+use Website\Application\Interfaces\ModelInterface;
+use Website\Application\Interfaces\ViewInterface;
 
 class IndexView implements ViewInterface
 {
