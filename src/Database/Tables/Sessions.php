@@ -19,7 +19,7 @@ class Sessions extends Table
      * @param string $table_name
      */
 
-    public function __construct($table_name = 'sampledeck_sessions')
+    public function __construct($table_name = 'WEBSITE_sessions')
     {
         parent::__construct($table_name);
     }

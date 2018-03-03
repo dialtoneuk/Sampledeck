@@ -78,13 +78,13 @@ class Routes
     private function readRoutes()
     {
 
-        if ( defined('SAMPLEDECK_ROUTESFILE') == false )
+        if ( defined('WEBSITE_ROUTESFILE') == false )
         {
 
             throw new \ErrorException();
         }
 
-        $data = FileSystem::readAsJson( SAMPLEDECK_ROUTESFILE, true );
+        $data = FileSystem::readAsJson( WEBSITE_ROUTESFILE, true );
 
         if ( empty( $data ) )
         {

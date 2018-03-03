@@ -1,4 +1,4 @@
-#Sampledeck github exclusion list
+#website github exclusion list
 
 /vendor/
 .htaccess

@@ -59,12 +59,12 @@ class FileOperator
     private static function getRealPath( $file )
     {
 
-        if ( defined('SAMPLEDECK_REALPATH') == false )
+        if ( defined('WEBSITE_REALPATH') == false )
         {
 
             throw new \ErrorException();
         }
 
-        return ( SAMPLEDECK_REALPATH . $file );
+        return ( WEBSITE_REALPATH . $file );
     }
 }

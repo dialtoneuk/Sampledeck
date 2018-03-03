@@ -196,6 +196,6 @@ class FrontController
             throw new \ErrorException();
         }
 
-        return( SAMPLEDECK_APPLICATION_NAMESPACE . $this->types[ $type ] . '\\' );
+        return( WEBSITE_APPLICATION_NAMESPACE . $this->types[ $type ] . '\\' );
     }
 }

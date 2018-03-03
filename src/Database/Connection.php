@@ -202,12 +202,12 @@ class Connection
     private function getConnectionFile()
     {
 
-        if ( defined('SAMPLEDECK_CONNECTIONFILE') == false )
+        if ( defined('WEBSITE_CONNECTIONFILE') == false )
         {
 
             throw new \ErrorException();
         }
 
-        return ( FileSystem::readAsJson( SAMPLEDECK_CONNECTIONFILE ) );
+        return ( FileSystem::readAsJson( WEBSITE_CONNECTIONFILE ) );
     }
 }
