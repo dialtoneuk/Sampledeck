@@ -1,0 +1,7 @@
+{
+    "/": {
+      "controller": "IndexController",
+      "model":"IndexModel",
+      "view":"IndexView"
+    }
+}
