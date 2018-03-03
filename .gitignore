@@ -1,0 +1,6 @@
+#Sampledeck github exclusion list
+
+/vendor/
+.htaccess
+/.idea/
+/config/connections/
