@@ -16,15 +16,27 @@ use Website\Sessions;
 class Session extends Profile implements ProfileInterface
 {
 
-    protected $sessions;
+    /**
+     * @var Sessions
+     */
 
-    public function __construct(bool $requirelogin = false)
+    public $sessions;
+
+    /**
+     * Session constructor.
+     */
+
+    public function __construct()
     {
 
         $this->sessions = new Sessions();
 
-        parent::__construct($requirelogin);
+        parent::__construct( false );
     }
+
+    /**
+     * @return bool
+     */
 
     public function populate()
     {
@@ -40,7 +52,9 @@ class Session extends Profile implements ProfileInterface
             if ( $this->sessions->valid( session_id() ) == false )
             {
 
-                return false;
+                $this->data->session = [
+                    'status' => false
+                ];
             }
             else
             {

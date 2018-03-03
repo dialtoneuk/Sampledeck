@@ -29,6 +29,7 @@ class Connection
      * Connection constructor.
      * @param bool $auto
      * @param bool $catch_exceptions
+     * @throws \Error
      * @throws \ErrorException
      */
 
@@ -65,9 +66,20 @@ class Connection
     }
 
     /**
+     * @return \Illuminate\Database\Connection;
+     */
+
+    public function get()
+    {
+
+        return( $this->capsule );
+    }
+
+    /**
      * @param array $connection_credentials
      * @param bool $set_variable
      * @return bool
+     * @throws \Error
      * @throws \ErrorException
      */
 
@@ -91,10 +103,10 @@ class Connection
 
         $this->database_framework->addConnection( $connection_credentials );
 
-        if ( $this->checkConnection() )
+        if ( $this->checkConnection() !== true )
         {
 
-            return false;
+            throw $this->checkConnection();
         }
 
         if ( $set_variable )
@@ -107,7 +119,7 @@ class Connection
     }
 
     /**
-     * @return bool
+     * @return bool|\Error|\Exception
      */
 
     private function checkConnection()
@@ -125,7 +137,7 @@ class Connection
         catch ( \Error $error )
         {
 
-            return false;
+            return $error;
         }
 
         return false;
@@ -174,7 +186,7 @@ class Connection
         foreach ( $required as $value )
         {
 
-            if ( isset( $connection_credentials->$value ) == false )
+            if ( isset( $connection_credentials[ $value ] ) == false )
             {
 
                 return false;
@@ -208,6 +220,6 @@ class Connection
             throw new \ErrorException();
         }
 
-        return ( FileSystem::readAsJson( WEBSITE_CONNECTIONFILE ) );
+        return ( FileSystem::readAsJson( WEBSITE_CONNECTIONFILE, true ) );
     }
 }

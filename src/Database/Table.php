@@ -34,7 +34,7 @@ class Table
     public function __construct( $table_name=null )
     {
 
-        $this->database_connection = Flight::database_connection();
+        $this->database_connection = Flight::database_connection()->get();
 
         if ( $table_name == null )
         {

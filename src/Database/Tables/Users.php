@@ -19,7 +19,7 @@ class Users extends Table
      * @param string $table_name
      */
 
-    public function __construct($table_name = "WEBSITE_users")
+    public function __construct($table_name = "users")
     {
 
         parent::__construct($table_name);

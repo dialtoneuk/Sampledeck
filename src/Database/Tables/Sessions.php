@@ -19,7 +19,7 @@ class Sessions extends Table
      * @param string $table_name
      */
 
-    public function __construct($table_name = 'WEBSITE_sessions')
+    public function __construct($table_name = 'sessions')
     {
         parent::__construct($table_name);
     }
@@ -59,7 +59,15 @@ class Sessions extends Table
             $column => $value
         ];
 
-        return( $this->table()->where( $array )->get()[0] );
+        $result = $this->table()->where( $array )->get();
+
+        if ( $result->isEmpty() )
+        {
+
+            return null;
+        }
+
+        return( $result[0] );
     }
 
     /**
@@ -75,7 +83,7 @@ class Sessions extends Table
             $column => $value
         ];
 
-        return( $this->table()->where( $array )->get()->isEmpty() );
+        return( $this->table()->where( $array )->get()->isNotEmpty() );
     }
 
     /**

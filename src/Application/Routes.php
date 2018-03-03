@@ -81,7 +81,7 @@ class Routes
         if ( defined('WEBSITE_ROUTESFILE') == false )
         {
 
-            throw new \ErrorException();
+            throw new \ErrorException('No global');
         }
 
         $data = FileSystem::readAsJson( WEBSITE_ROUTESFILE, true );
@@ -89,7 +89,7 @@ class Routes
         if ( empty( $data ) )
         {
 
-            throw new \ErrorException();
+            throw new \ErrorException('No data');
         }
 
         return $data;

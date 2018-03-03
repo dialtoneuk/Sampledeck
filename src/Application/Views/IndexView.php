@@ -26,6 +26,8 @@ class IndexView implements ViewInterface
     public function view()
     {
 
-        die( print_r( $this->model->model() ) );
+        return( [
+            'test.php'
+        ]);
     }
 }

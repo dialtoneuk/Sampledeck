@@ -8,6 +8,7 @@
 
 namespace Website\Application\Profiles;
 
+
 use Website\Application\Interfaces\ProfileInterface;
 use Website\Application\Profile;
 use Website\Users;
@@ -19,15 +20,24 @@ class User extends Profile implements ProfileInterface
 
     public $userid;
 
-    /**
-     * User constructor.
-     * @param $userid
-     */
-
-    public function __construct( $userid )
+    public function __construct()
     {
 
         $this->users = new Users();
+
+        if ( session_id() !== PHP_SESSION_ACTIVE )
+        {
+
+            return false;
+        }
+
+        if ( $this->sessions->valid( session_id() ) == false )
+        {
+
+            return false;
+        }
+
+        $userid = $this->sessions->get( session_id() )->userid;
 
         if ( $this->users->exists( $userid ) == false )
         {
@@ -42,6 +52,18 @@ class User extends Profile implements ProfileInterface
 
     public function populate()
     {
+
+        if ( session_id() !== PHP_SESSION_ACTIVE )
+        {
+
+            return false;
+        }
+
+        if ( $this->sessions->valid( session_id() ) == false )
+        {
+
+            return false;
+        }
 
         $user = $this->users->get( $this->userid );
 

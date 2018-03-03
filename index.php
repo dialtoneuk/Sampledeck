@@ -33,16 +33,7 @@ require_once "vendor/autoload.php";
  * ==============================================================================
  */
 
-if ( php_sapi_name() !== 'cli' )
-{
-
-    define('WEBSITE_REALPATH', $_SERVER['DOCUMENT_ROOT'] . '/website/' );
-}
-else
-{
-
-    define('WEBSITE_REALPATH', getcwd() );
-}
+define('WEBSITE_REALPATH', $_SERVER['DOCUMENT_ROOT'] . '/sampledeck/' );
 
 /**
  * ==============================================================================
@@ -73,6 +64,8 @@ define('MODELS_FOLDER', 'Models');
 define('VIEWS_FOLDER', 'Views');
 define('PROFILES_FOLDER', 'Profiles');
 define('WEBSITE_APPLICATION_NAMESPACE', 'Website\\Application\\');
+define('WEBSITE_PROFILES', true );
+define('DIRECTORY', '/');
 
 /**
  * ==============================================================================
@@ -191,6 +184,35 @@ try
                         /** @var \Website\Application\ModelInterface $model */
                         $model = $payload->model;
 
+                        /**
+                         * Start the session
+                         */
+
+                        session_start();
+
+                        /**
+                         * Load our profiles
+                         */
+
+                        if ( WEBSITE_PROFILES )
+                        {
+
+                            Flight::register('profilescontroller', 'Website\Application\ProfilesController');
+
+                            $profiles = Flight::profilescontroller()->get();
+
+                            if ( $profiles === false )
+                            {
+
+                                Flight::view()->set('profiles', []);
+                            }
+                            else
+                            {
+
+                                Flight::view()->set('profiles', Flight::profilescontroller()->process( $profiles ) );
+                            }
+                        }
+
                         Flight::set('model', $model->model() );
 
                         foreach ( $output as $key=>$value )
@@ -199,7 +221,14 @@ try
                             if ( empty( $value ) == false )
                             {
 
-                                forward_static_call( array('Flight', 'render'), $value );
+                                if ( is_string( $value ) )
+                                {
+
+                                    Flight::render( $value );
+                                    continue;
+                                }
+
+                                forward_static_call_array( array('Flight', 'render'), $value );
                             }
                             else
                             {

@@ -8,15 +8,25 @@
 
 namespace Website\Application;
 
+
+use Website\Sessions;
+
 class Profile extends \stdClass
 {
 
-    protected $data;
+    public $data;
+    public $sessions;
 
     public function __construct( bool $requirelogin=true )
     {
 
         $this->data = new \stdClass();
+
+        if ( $requirelogin == true )
+        {
+
+            $this->sessions = new Sessions();
+        }
 
         $this->setAcquireLogin( $requirelogin );
     }
