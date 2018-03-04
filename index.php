@@ -65,6 +65,7 @@ define('VIEWS_FOLDER', 'Views');
 define('PROFILES_FOLDER', 'Profiles');
 define('WEBSITE_APPLICATION_NAMESPACE', 'Website\\Application\\');
 define('WEBSITE_PROFILES', true );
+define('GLOBAL_PROFILES', true );
 define('DIRECTORY', '/');
 
 /**
@@ -73,16 +74,38 @@ define('DIRECTORY', '/');
 
 /**
  * Register the database connection class
+ * ==============================================================================
  */
 
-Flight::register('database_connection', 'Website\Database\Connection');
+Flight::register('dbconnection', 'Website\Database\Connection');
 
 /**
- * Start to go through our routes
+ * ==============================================================================
+ */
+
+/**
+ * Timing our startup
+ */
+
+Flight::set('timestart', microtime( true ) );
+
+Flight::before('start', function ()
+{
+
+    Flight::set('timeend', microtime( true ) );
+});
+
+/**
+ * ==============================================================================
+ */
+
+/**
+ * Initiate the framework
  */
 
 try
 {
+
     $routes = new \Website\Application\Routes();
 
     foreach ( $routes->get() as $key=>$value )
@@ -125,28 +148,58 @@ try
                 {
 
                     /**
-                     * We must globally set the route before we create the front controller so that it is globally accessible to the entire site.
+                     * Start the session
+                     */
+
+                    session_start();
+
+
+                    /**
+                     * If website profiles are turned on, lets add the profiles to our view
+                     */
+
+                    if ( WEBSITE_PROFILES === true )
+                    {
+
+                        Flight::register('profilescontroller', 'Website\Application\ProfilesController');
+                        $profiles = Flight::profilescontroller()->get();
+
+                        if ( $profiles === false )
+                        {
+
+                            Flight::view()->set('profiles', new stdClass() );
+                        }
+                        else
+                        {
+
+                            $profiles = json_decode( json_encode( Flight::profilescontroller()->process( $profiles ) ) );
+
+                            if ( GLOBAL_PROFILES === true )
+                            {
+
+                                Flight::view()->set('profiles', $profiles );
+                                Flight::set('profiles', $profiles );
+                            }
+
+                            Flight::view()->set('profiles', $profiles );
+                        }
+                    }
+
+                    /**
+                     * Global the current route
                      */
 
                     Flight::set('route', $route );
 
                     /**
-                     * Register the front controller into the shared container
-                     */
-
-                    /**
                      * @var \Website\Application\FrontController
                      */
+
                     Flight::register('frontcontroller', 'Website\Application\FrontController');
-
-                    /**
-                     * We will throw this in a try statement to catch any errors
-                     */
-
                     $payload = Flight::frontcontroller()->getPayload( $value['controller'], $value['model'], $value['view'] );
 
                     /**
-                     * We then globalize the front controllers payload so each of the classes are accessible through out the application
+                     * Global the payload
                      */
 
                     Flight::set('payload', $payload );
@@ -155,7 +208,7 @@ try
                      * Now we initiate the controller, passing the request information as a parameter
                      */
 
-                    /** @var \Website\Application\ControllerInterface $controller */
+                    /** @var \Website\Application\Interfaces\ControllerInterface $controller */
                     $controller = $payload->controller;
                     $result = $controller->controller( Flight::request() );
 
@@ -169,7 +222,7 @@ try
                      * We will now return the models view method, and begin
                      */
 
-                    /** @var \Website\Application\ViewInterface $view */
+                    /** @var \Website\Application\Interfaces\ViewInterface $view */
                     $view = $payload->view;
                     $output = $view->view();
 
@@ -181,39 +234,14 @@ try
                     else
                     {
 
-                        /** @var \Website\Application\ModelInterface $model */
+                        /** @var \Website\Application\Interfaces\ModelInterface $model */
                         $model = $payload->model;
 
                         /**
-                         * Start the session
+                         * Now lets set the model to be accessible as a variable from the template builder
                          */
 
-                        session_start();
-
-                        /**
-                         * Load our profiles
-                         */
-
-                        if ( WEBSITE_PROFILES )
-                        {
-
-                            Flight::register('profilescontroller', 'Website\Application\ProfilesController');
-
-                            $profiles = Flight::profilescontroller()->get();
-
-                            if ( $profiles === false )
-                            {
-
-                                Flight::view()->set('profiles', []);
-                            }
-                            else
-                            {
-
-                                Flight::view()->set('profiles', Flight::profilescontroller()->process( $profiles ) );
-                            }
-                        }
-
-                        Flight::set('model', $model->model() );
+                        Flight::view()->set('model', $model->model() );
 
                         foreach ( $output as $key=>$value )
                         {
@@ -228,7 +256,12 @@ try
                                     continue;
                                 }
 
-                                forward_static_call_array( array('Flight', 'render'), $value );
+                                if ( is_array( $value ) )
+                                {
+
+                                    forward_static_call_array( array('Flight', 'render'), $value );
+                                    continue;
+                                }
                             }
                             else
                             {

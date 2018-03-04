@@ -18,7 +18,7 @@ class Table
      * @var \Illuminate\Database\Connection
      */
 
-    public $database_connection;
+    public $dbconnection;
 
     /**
      * @var null|string
@@ -34,7 +34,7 @@ class Table
     public function __construct( $table_name=null )
     {
 
-        $this->database_connection = Flight::database_connection()->get();
+        $this->dbconnection = Flight::dbconnection()->get();
 
         if ( $table_name == null )
         {
@@ -52,7 +52,7 @@ class Table
     public function count()
     {
 
-        return( $this->database_connection->table( $this->table_name )->count() );
+        return( $this->dbconnection->table( $this->table_name )->count() );
     }
 
     /**
@@ -62,7 +62,7 @@ class Table
     public function all()
     {
 
-        return( $this->database_connection->table( $this->table_name )->get() );
+        return( $this->dbconnection->table( $this->table_name )->get() );
     }
 
     /**
@@ -72,7 +72,7 @@ class Table
     public function exists()
     {
 
-        return ( $this->database_connection->table( $this->table_name )->exists() );
+        return ( $this->dbconnection->table( $this->table_name )->exists() );
     }
 
     /**
@@ -82,6 +82,6 @@ class Table
     public function table()
     {
 
-        return ( $this->database_connection->table( $this->table_name ) );
+        return ( $this->dbconnection->table( $this->table_name ) );
     }
 }

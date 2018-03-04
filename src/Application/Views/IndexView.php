@@ -26,7 +26,7 @@ class IndexView implements ViewInterface
     public function view()
     {
 
-        return( [
+        return([
             'test.php'
         ]);
     }

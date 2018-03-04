@@ -60,7 +60,15 @@ class Users extends Table
             $column => $value
         ];
 
-        return( $this->table()->where( $array )->get()[0] );
+        $result = $this->table()->where( $array )->get();
+
+        if ( $result->isEmpty() )
+        {
+
+            return null;
+        }
+
+        return( $result[0] );
     }
 
     /**

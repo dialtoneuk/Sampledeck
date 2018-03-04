@@ -59,6 +59,12 @@ class FileOperator
     private static function getRealPath( $file )
     {
 
+        if ( str_contains( $file, WEBSITE_REALPATH ) )
+        {
+
+            $file = str_replace( WEBSITE_REALPATH, '', $file );
+        }
+
         if ( defined('WEBSITE_REALPATH') == false )
         {
 

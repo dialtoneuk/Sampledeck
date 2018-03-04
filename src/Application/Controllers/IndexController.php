@@ -8,19 +8,17 @@
 
 namespace Website\Application\Controllers;
 
-use Website\Application\Interfaces\ControllerInterface;
-use Website\Application\Interfaces\ModelInterface;
 
-class IndexController implements ControllerInterface
+use Website\Application\Controller;
+use Website\Application\Interfaces\ControllerInterface;
+
+class IndexController extends Controller implements ControllerInterface
 {
 
-    protected $model;
-
-    public function __construct(ModelInterface $model)
-    {
-
-        $this->model = $model;
-    }
+    /**
+     * @param object $request
+     * @return mixed|void
+     */
 
     public function controller( object $request )
     {

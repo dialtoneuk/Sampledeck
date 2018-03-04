@@ -14,10 +14,25 @@ use Website\IO\FileOperator;
 class Crawler
 {
 
+    /**
+     * @var string
+     */
+
     protected $path;
+
+    /**
+     * Crawler constructor.
+     * @param string $path
+     */
 
     public function __construct( $path="" )
     {
+
+        if ( str_contains( $path, WEBSITE_REALPATH ) )
+        {
+
+            $path = str_replace( WEBSITE_REALPATH, '', $path );
+        }
 
         if ( file_exists( $this->getRealPath( $path ) ) == false )
         {
@@ -39,6 +54,11 @@ class Crawler
         return true;
     }
 
+    /**
+     * @param string $prefix
+     * @return array|null
+     */
+
     public function getInDirectory( $prefix=".php")
     {
 
@@ -52,6 +72,11 @@ class Crawler
 
         return $files;
     }
+
+    /**
+     * @param $path
+     * @return string
+     */
 
     private function getRealPath( $path )
     {

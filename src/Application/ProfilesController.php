@@ -8,11 +8,16 @@
 
 namespace Website\Application;
 
+
 use Website\IO\Crawler;
 use Website\Sessions;
 
 class ProfilesController
 {
+
+    /**
+     * @var Crawler
+     */
 
     protected $crawler;
 
@@ -26,10 +31,16 @@ class ProfilesController
         $this->crawler = new Crawler( $this->getRealPath() );
     }
 
+    /**
+     * @param $profiles
+     * @return array
+     */
+
     public function process( $profiles )
     {
 
         $data = [];
+        $this->session = new Sessions();
 
         foreach ( $profiles as $key=>$profile )
         {
@@ -45,8 +56,6 @@ class ProfilesController
 
                         continue;
                     }
-
-                    $this->session = new Sessions();
 
                     if ( $this->session->valid( session_id() ) == false )
                     {

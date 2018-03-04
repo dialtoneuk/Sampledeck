@@ -17,49 +17,42 @@ class User extends Profile implements ProfileInterface
 {
 
     protected $users;
-
     public $userid;
+
+    /**
+     * User constructor.
+     * @throws \ErrorException
+     */
 
     public function __construct()
     {
 
+        if ( $this->isLoggedIn() == false )
+        {
+
+            return false;
+        }
+
         $this->users = new Users();
+        $this->userid = $this->sessions->get( session_id() )->userid;
 
-        if ( session_id() !== PHP_SESSION_ACTIVE )
+        if ( $this->users->exists( $this->userid ) == false )
         {
 
-            return false;
+            throw new \ErrorException();
         }
-
-        if ( $this->sessions->valid( session_id() ) == false )
-        {
-
-            return false;
-        }
-
-        $userid = $this->sessions->get( session_id() )->userid;
-
-        if ( $this->users->exists( $userid ) == false )
-        {
-
-            return false;
-        }
-
-        $this->userid = $userid;
 
         return parent::__construct( true );
     }
 
+    /**
+     * @return bool
+     */
+
     public function populate()
     {
 
-        if ( session_id() !== PHP_SESSION_ACTIVE )
-        {
-
-            return false;
-        }
-
-        if ( $this->sessions->valid( session_id() ) == false )
+        if ( $this->isLoggedIn() == false )
         {
 
             return false;

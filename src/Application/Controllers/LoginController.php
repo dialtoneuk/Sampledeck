@@ -9,6 +9,7 @@
 namespace Website\Application\Controllers;
 
 
+use Website\Application\Controller;
 use Website\Application\Interfaces\ControllerInterface;
 use Website\Application\Interfaces\ModelInterface;
 use Website\Sessions;
@@ -19,33 +20,15 @@ use Website\Users;
  * @property Sessions sessions
  */
 
-class LoginController implements ControllerInterface
+class LoginController extends Controller implements ControllerInterface
 {
 
-    protected $model;
     protected $form_errors = [];
     protected $form_requirements = [
         'username',
         'password',
         'verification'
     ];
-
-    /**
-     * LoginController constructor.
-     * @param ModelInterface $model
-     */
-
-    public function __construct(ModelInterface $model)
-    {
-
-        if ( session_status() !== PHP_SESSION_ACTIVE )
-        {
-
-            session_start();
-        }
-
-        $this->model = $model;
-    }
 
     /**
      * @param object $request
@@ -113,30 +96,6 @@ class LoginController implements ControllerInterface
         {
 
             return true;
-        }
-    }
-
-    /**
-     * @param $message
-     */
-
-    private function addError( $message )
-    {
-
-        $this->model->set('errors', $this->model->get('errors')[] = $message );
-    }
-
-    /**
-     *
-     */
-
-    private function cleanInput()
-    {
-
-        foreach ( $_POST as $key=>$value )
-        {
-
-            $_POST[ $key ] = strip_tags( $value );
         }
     }
 }
