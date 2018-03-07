@@ -60,7 +60,7 @@ class User extends Profile implements ProfileInterface
 
         $user = $this->users->get( $this->userid );
 
-        $this->data->user = [
+        $this->data->info = [
             'userid'    => $this->userid,
             'username'  => $user->username,
             'email'     => $user->email

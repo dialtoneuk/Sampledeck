@@ -28,6 +28,13 @@ interface ModelInterface
     public function get( $key );
 
     /**
+     * @param $key
+     * @return bool
+     */
+
+    public function has( $key );
+
+    /**
      * @return mixed
      */
 

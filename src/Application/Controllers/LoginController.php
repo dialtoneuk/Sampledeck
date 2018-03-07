@@ -11,7 +11,7 @@ namespace Website\Application\Controllers;
 
 use Website\Application\Controller;
 use Website\Application\Interfaces\ControllerInterface;
-use Website\Application\Interfaces\ModelInterface;
+use Flight;
 use Website\Sessions;
 use Website\Users;
 
@@ -38,11 +38,19 @@ class LoginController extends Controller implements ControllerInterface
     public function controller(object $request)
     {
 
+        $this->sessions = new Sessions();
+
+        if ( $this->sessions->valid( session_id() ) )
+        {
+
+            Flight::redirect(WEBSITE_URL_ROOT );
+            return true;
+        }
+
         if ( $request->method == 'POST' )
         {
 
             $this->users = new Users();
-            $this->sessions = new Sessions();
 
             if ( empty( $_POST ) )
             {
@@ -65,12 +73,12 @@ class LoginController extends Controller implements ControllerInterface
 
             $username = $_POST['username'];
             $password = $_POST['password'];
-            $validation = $_POST['validation'];
+            $verification = $_POST['verification'];
 
             if ( $this->users->checkForUsername( $username ) == false )
             {
 
-                $this->addError('Your password or username is incorrect, please try again');
+                $this->addError('Your username is incorrect, please try again');
                 return true;
             }
 

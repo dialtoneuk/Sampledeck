@@ -43,7 +43,7 @@ class Session extends Profile implements ProfileInterface
 
             $session = $this->sessions->get( session_id() );
 
-            $this->data->session = [
+            $this->data->info = [
                 'sessionid' => session_id(),
                 'active'    => true,
                 'logintime' => $session->logintime,
@@ -53,7 +53,7 @@ class Session extends Profile implements ProfileInterface
         else
         {
 
-            $this->data->session = [
+            $this->data->info = [
                 'active' => false
             ];
         }

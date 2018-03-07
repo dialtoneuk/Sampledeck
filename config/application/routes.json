@@ -3,5 +3,10 @@
       "controller": "IndexController",
       "model":"IndexModel",
       "view":"IndexView"
+    },
+    "/login": {
+      "controller": "LoginController",
+      "model":"IndexModel",
+      "view":"LoginView"
     }
 }

@@ -84,7 +84,7 @@ class Users extends Table
             $column => $value
         ];
 
-        return( $this->table()->where( $array )->get()->isEmpty() );
+        return( $this->table()->where( $array )->get()->isNotEmpty() );
     }
 
     /**

@@ -12,7 +12,7 @@ namespace Website\Application\Views;
 use Website\Application\Interfaces\ModelInterface;
 use Website\Application\Interfaces\ViewInterface;
 
-class IndexView implements ViewInterface
+class LoginView implements ViewInterface
 {
 
     protected $model;
@@ -40,7 +40,7 @@ class IndexView implements ViewInterface
                     [],
                     'page_navbar'
                 ],
-                'index'
+                'login'
             ]
         );
     }

@@ -46,6 +46,8 @@ define('WEBSITE_REALPATH', $_SERVER['DOCUMENT_ROOT'] . '/sampledeck/' );
 
 define('WEBSITE_CONNECTIONFILE', '/config/connections/mysql.json' );
 define('WEBSITE_ROUTESFILE', '/config/application/routes.json' );
+define('FLIGHT_VIEWS_FOLDER', 'alpha');
+define('WEBSITE_URL_ROOT', '/sampledeck/');
 
 /**
  * ==============================================================================
@@ -133,6 +135,12 @@ try
             }
         }
 
+        /**
+         * Change the views folder
+         */
+
+        Flight::set('flight.views.path', './views/' . FLIGHT_VIEWS_FOLDER );
+
         Flight::route( $key,
             function() use ( $value )
             {
@@ -203,7 +211,6 @@ try
                      */
 
                     Flight::set('payload', $payload );
-
                     /**
                      * Now we initiate the controller, passing the request information as a parameter
                      */
@@ -243,6 +250,12 @@ try
 
                         Flight::view()->set('model', $model->model() );
 
+                        /**
+                         * URL root
+                         */
+
+                        Flight::view()->set('url_root', WEBSITE_URL_ROOT );
+
                         foreach ( $output as $key=>$value )
                         {
 
@@ -259,7 +272,7 @@ try
                                 if ( is_array( $value ) )
                                 {
 
-                                    forward_static_call_array( array('Flight', 'render'), $value );
+                                    forward_static_call_array( array('Flight', 'render'), array( $key, $value[0], $value[1]));
                                     continue;
                                 }
                             }

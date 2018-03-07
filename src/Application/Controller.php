@@ -38,6 +38,13 @@ class Controller
     public function addError( $message )
     {
 
+        if ( $this->model->has('errors') == false )
+        {
+
+            $this->model->set('errors', [$message]);
+            return;
+        }
+
         $this->model->set('errors', $this->model->get('errors')[] = $message );
     }
 
