@@ -3,4 +3,5 @@
 /vendor/
 .htaccess
 /.idea/
+/assets/
 /config/connections/
