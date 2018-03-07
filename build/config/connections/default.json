@@ -1,0 +1,10 @@
+{
+  "username": "",
+  "password": "",
+  "host": "",
+  "database": "",
+  "driver": "mysql",
+  "charset": "utf8",
+  "collation": "utf8_unicode_ci",
+  "prefix": ""
+}
