@@ -48,6 +48,7 @@ define('WEBSITE_CONNECTIONFILE', '/config/connections/mysql.json' );
 define('WEBSITE_ROUTESFILE', '/config/application/routes.json' );
 define('FLIGHT_VIEWS_FOLDER', 'alpha');
 define('WEBSITE_URL_ROOT', '/sampledeck/');
+define('WEBSITE_NAME','Sycrack');
 
 /**
  * ==============================================================================
@@ -251,10 +252,16 @@ try
                         Flight::view()->set('model', $model->model() );
 
                         /**
-                         * URL root
+                         * Set some view  variables
                          */
 
                         Flight::view()->set('url_root', WEBSITE_URL_ROOT );
+                        Flight::view()->set('website_name', WEBSITE_NAME );
+                        Flight::view()->set('load_time', ( Flight::get('timeend') - Flight::get('timestart') ) / 60 * 60 * 24 );
+
+                        /**
+                         * Render output
+                         */
 
                         foreach ( $output as $key=>$value )
                         {

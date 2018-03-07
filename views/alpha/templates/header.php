@@ -2,7 +2,7 @@
     if ( isset( $page_title ) == false )
     {
 
-        $page_title = "Website";
+        $page_title = "<?=$website_name?>";
     }
 ?>
 

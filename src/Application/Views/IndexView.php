@@ -40,6 +40,10 @@ class IndexView implements ViewInterface
                     [],
                     'page_navbar'
                 ],
+                "templates/breadcrumb" => [
+                    [],
+                    'page_breadcrumb'
+                ],
                 'index'
             ]
         );

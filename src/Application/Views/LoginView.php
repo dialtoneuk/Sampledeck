@@ -40,6 +40,14 @@ class LoginView implements ViewInterface
                     [],
                     'page_navbar'
                 ],
+                "templates/breadcrumb" => [
+                    [],
+                    'page_breadcrumb'
+                ],
+                "templates/formerror" => [
+                    [],
+                    'form_error'
+                ],
                 'login'
             ]
         );
