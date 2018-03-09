@@ -10,6 +10,7 @@ namespace Website\Application;
 
 
 use Website\Application\Interfaces\ModelInterface;
+use Website\Sessions;
 
 class Controller
 {
@@ -19,6 +20,12 @@ class Controller
      */
 
     public $model;
+
+    /**
+     * @var Sessions
+     */
+
+    public $sessions;
 
     /**
      * Controller constructor.
@@ -66,9 +73,6 @@ class Controller
     {
 
         foreach ( $_POST as $key=>$value )
-        {
-
             $_POST[ $key ] = strip_tags( $value );
-        }
     }
 }

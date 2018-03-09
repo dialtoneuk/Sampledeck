@@ -63,6 +63,16 @@ class Users
     }
 
     /**
+     * @param $email
+     * @return bool
+     */
+
+    public function checkForEmail( $email )
+    {
+
+        return( $this->table->has('email', $email ) );
+    }
+    /**
      * @param int $userid
      * @param array $array
      */

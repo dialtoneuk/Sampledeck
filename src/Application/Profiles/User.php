@@ -16,7 +16,7 @@ use Website\Users;
 class User extends Profile implements ProfileInterface
 {
 
-    protected $users;
+    public $users;
     public $userid;
 
     /**
@@ -27,11 +27,10 @@ class User extends Profile implements ProfileInterface
     public function __construct()
     {
 
-        if ( $this->isLoggedIn() == false )
-        {
+        parent::__construct( true );
 
+        if ( $this->isLoggedIn() == false )
             return false;
-        }
 
         $this->users = new Users();
         $this->userid = $this->sessions->get( session_id() )->userid;
@@ -42,7 +41,7 @@ class User extends Profile implements ProfileInterface
             throw new \ErrorException();
         }
 
-        return parent::__construct( true );
+        return true;
     }
 
     /**
@@ -53,17 +52,15 @@ class User extends Profile implements ProfileInterface
     {
 
         if ( $this->isLoggedIn() == false )
-        {
-
             return false;
-        }
 
         $user = $this->users->get( $this->userid );
 
         $this->data->info = [
             'userid'    => $this->userid,
             'username'  => $user->username,
-            'email'     => $user->email
+            'email'     => $user->email,
+            'colour'     => $user->colour
         ];
     }
 }

@@ -29,10 +29,7 @@ class Crawler
     {
 
         if ( str_contains( $path, WEBSITE_REALPATH ) )
-        {
-
             $path = str_replace( WEBSITE_REALPATH, '', $path );
-        }
 
         if ( file_exists( $this->getRealPath( $path ) ) == false )
         {
@@ -43,10 +40,8 @@ class Crawler
         {
 
             if ( is_dir( $this->getRealPath( $path ) ) == false )
-            {
-
                 return false;
-            }
+
         }
 
         $this->path = $path;
@@ -65,10 +60,8 @@ class Crawler
         $files = glob( $this->getRealPath( $this->path ) . "*" . $prefix );
 
         if ( empty( $files ) )
-        {
-
             return null;
-        }
+
 
         return $files;
     }
@@ -82,10 +75,8 @@ class Crawler
     {
 
         if ( substr( $path, -1) !== '/' )
-        {
-
             $path .= '/';
-        }
+
 
         return ( WEBSITE_REALPATH . $path );
     }

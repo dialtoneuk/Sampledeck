@@ -37,7 +37,12 @@ class Sessions
     public function valid( $sessionid )
     {
 
-        return ( $this->database->has('sessionid', $sessionid ) );
+        $result = $this->database->has('sessionid', $sessionid );
+
+        if ( $result == false )
+            return false;
+
+        return true;
     }
 
     /**

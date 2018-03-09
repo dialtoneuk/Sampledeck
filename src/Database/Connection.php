@@ -95,19 +95,13 @@ class Connection
         {
 
             if ( $this->verifyCredentials( $connection_credentials ) == false )
-            {
-
                 throw new \ErrorException('Failed credential verfication');
-            }
         }
 
         $this->database_framework->addConnection( $connection_credentials );
 
         if ( $this->checkConnection() !== true )
-        {
-
             throw $this->checkConnection();
-        }
 
         if ( $set_variable )
         {
@@ -129,10 +123,7 @@ class Connection
         {
 
             if ( $this->database_framework->getConnection()->getDatabaseName() )
-            {
-
                 return true;
-            }
         }
         catch ( \Error $error )
         {
@@ -153,16 +144,12 @@ class Connection
         $connection_credentials = $this->getConnectionFile();
 
         if ( empty( $connection_credentials ) )
-        {
-
             throw new \ErrorException();
-        }
+
 
         if ( $this->verifyCredentials( $connection_credentials ) == false )
-        {
-
             throw new \ErrorException('Failed credential verfication');
-        }
+
 
         return $this->merge( $connection_credentials );
     }
@@ -187,10 +174,8 @@ class Connection
         {
 
             if ( isset( $connection_credentials[ $value ] ) == false )
-            {
-
                 return false;
-            }
+
         }
 
         return true;
@@ -215,10 +200,7 @@ class Connection
     {
 
         if ( defined('WEBSITE_CONNECTIONFILE') == false )
-        {
-
             throw new \ErrorException();
-        }
 
         return ( FileSystem::readAsJson( WEBSITE_CONNECTIONFILE, true ) );
     }

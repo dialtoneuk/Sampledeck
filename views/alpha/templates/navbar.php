@@ -10,8 +10,92 @@
                 {
                     ?>
                     <ul class="navbar-nav">
-                        <li class="nav-item" style="float: right;">
-                            <a class="nav-link" href="<?=$url_root?>profile"><?=$profiles->user->info->username?></a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Builds
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">View</a>
+                                <a class="dropdown-item" href="#">Links</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Upload</a>
+                            </div>
+                        </li>
+
+
+                        <?php
+
+                        if ( isset( $profiles->teams ) == false )
+                        {
+
+                            ?>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Team
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Create</a>
+                                        <a class="dropdown-item" href="#">Join</a>
+                                    </div>
+                                </li>
+                            <?php
+                        }
+                        else
+                        {
+
+                            if ( isset( $profiles->teams->info->teamid) )
+                            {
+
+                                ?>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Team
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="#">Builds</a>
+                                            <a class="dropdown-item" href="#">Members</a>
+
+                                            <?php
+
+                                                if ( $profiles->teams->info->owner == $profiles->session->info->userid )
+                                                {
+
+                                                    ?>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">manage</a>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </div>
+                                    </li>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Team
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="#">Create</a>
+                                            <a class="dropdown-item" href="#">Join</a>
+                                        </div>
+                                    </li>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </ul>
+                    <ul class="navbar-nav" style="margin-left: auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?=$profiles->user->info->username?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="settings">Settings</a>
+                                <a class="dropdown-item" href="logout">Logout</a>
+                            </div>
                         </li>
                     </ul>
                     <?php

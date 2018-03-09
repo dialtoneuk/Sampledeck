@@ -8,5 +8,15 @@
       "controller": "LoginController",
       "model":"IndexModel",
       "view":"LoginView"
+    },
+    "/logout": {
+      "controller": "LogoutController",
+      "model":"IndexModel",
+      "view":"IndexView"
+    },
+    "/register": {
+      "controller": "RegisterController",
+      "model":"IndexModel",
+      "view":"RegisterView"
     }
 }

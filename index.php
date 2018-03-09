@@ -48,7 +48,8 @@ define('WEBSITE_CONNECTIONFILE', '/config/connections/mysql.json' );
 define('WEBSITE_ROUTESFILE', '/config/application/routes.json' );
 define('FLIGHT_VIEWS_FOLDER', 'alpha');
 define('WEBSITE_URL_ROOT', '/sampledeck/');
-define('WEBSITE_NAME','Sycrack');
+define('WEBSITE_NAME','Unibary');
+define('DEFAULT_GROUP',1);
 
 /**
  * ==============================================================================
@@ -81,6 +82,7 @@ define('DIRECTORY', '/');
  */
 
 Flight::register('dbconnection', 'Website\Database\Connection');
+Flight::register('sessions', 'Website\Sessions');
 
 /**
  * ==============================================================================

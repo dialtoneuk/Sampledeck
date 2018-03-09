@@ -23,7 +23,6 @@ use Website\Users;
 class LoginController extends Controller implements ControllerInterface
 {
 
-    protected $form_errors = [];
     protected $form_requirements = [
         'username',
         'password',
@@ -38,7 +37,7 @@ class LoginController extends Controller implements ControllerInterface
     public function controller(object $request)
     {
 
-        $this->sessions = new Sessions();
+        $this->sessions = Flight::sessions();
 
         if ( $this->sessions->valid( session_id() ) )
         {
@@ -53,10 +52,7 @@ class LoginController extends Controller implements ControllerInterface
             $this->users = new Users();
 
             if ( empty( $_POST ) )
-            {
-
                 return false;
-            }
 
             $this->cleanInput();
 
@@ -84,7 +80,7 @@ class LoginController extends Controller implements ControllerInterface
 
             $user = $this->users->getByUsername( $username );
 
-            if ( $user->password !== sha1( $user->salt . $password ) )
+            if ( $user->password !== sha1( $password . $user->salt ) )
             {
 
                 $this->addError('Your password or username is incorrect, please try again');
@@ -98,6 +94,7 @@ class LoginController extends Controller implements ControllerInterface
                 'lastaction'    => time()
             ));
 
+            Flight::redirect('/');
             return true;
         }
         else

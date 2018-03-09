@@ -10,6 +10,7 @@ namespace Website\Application;
 
 
 use Website\Sessions;
+use Flight;
 
 class Profile extends \stdClass
 {
@@ -26,7 +27,7 @@ class Profile extends \stdClass
     {
 
         $this->data = new \stdClass();
-        $this->sessions = new Sessions();
+        $this->sessions = Flight::sessions();
 
         $this->setAcquireLogin( $requirelogin );
     }
@@ -48,17 +49,11 @@ class Profile extends \stdClass
     public function isLoggedIn()
     {
 
-        if ( session_id() !== PHP_SESSION_ACTIVE )
-        {
-
+        if ( session_status() !== PHP_SESSION_ACTIVE )
             return false;
-        }
 
         if ( $this->sessions->valid( session_id() ) == false )
-        {
-
             return false;
-        }
 
         return true;
     }

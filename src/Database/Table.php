@@ -37,10 +37,7 @@ class Table
         $this->dbconnection = Flight::dbconnection()->get();
 
         if ( $table_name == null )
-        {
-
             $table_name = get_called_class();
-        }
 
         $this->table_name = $table_name;
     }

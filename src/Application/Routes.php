@@ -30,15 +30,9 @@ class Routes
     {
 
         if ( $routes == [] )
-        {
-
             $this->routes = $this->readRoutes();
-        }
         else
-        {
-
             $this->routes = $routes;
-        }
     }
 
     /**
@@ -61,10 +55,7 @@ class Routes
     {
 
         if ( isset( $this->routes[ $route ] ) == false )
-        {
-
             return false;
-        }
 
         return true;
     }
@@ -79,18 +70,12 @@ class Routes
     {
 
         if ( defined('WEBSITE_ROUTESFILE') == false )
-        {
-
             throw new \ErrorException('No global');
-        }
 
         $data = FileSystem::readAsJson( WEBSITE_ROUTESFILE, true );
 
         if ( empty( $data ) )
-        {
-
             throw new \ErrorException('No data');
-        }
 
         return $data;
     }

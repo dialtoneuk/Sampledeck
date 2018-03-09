@@ -25,14 +25,16 @@ class FrontController
 
     public $payloads;
 
+    /**
+     * FrontController constructor.
+     * @throws \ErrorException
+     */
+
     public function __construct()
     {
 
         if ( Flight::has('route') == false )
-        {
-
             throw new \ErrorException('Flight route request global constant not found');
-        }
     }
 
     /**

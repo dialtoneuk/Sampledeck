@@ -11,35 +11,20 @@ namespace Website\Application\Views;
 
 use Website\Application\Interfaces\ModelInterface;
 use Website\Application\Interfaces\ViewInterface;
-use Flight;
-use Website\Sessions;
 
-class IndexView implements ViewInterface
+class RegisterView implements ViewInterface
 {
 
     protected $model;
 
-    /**
-     * @var Sessions
-     */
-
-    public $sessions;
-
     public function __construct(ModelInterface $model)
     {
 
-        $this->sessions = Flight::sessions();
         $this->model = $model;
     }
 
     public function view()
     {
-
-        if ( $this->sessions->valid( session_id() ) )
-            $page = 'index_user';
-        else
-            $page = "index_guest";
-
 
         return(
             [
@@ -59,11 +44,11 @@ class IndexView implements ViewInterface
                     [],
                     'page_breadcrumb'
                 ],
-                "templates/content/" . $page =>[
+                "templates/formerror" => [
                     [],
-                    'index_content'
+                    'form_error'
                 ],
-                'index'
+                'register'
             ]
         );
     }

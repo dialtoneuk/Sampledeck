@@ -17,24 +17,12 @@ class IndexController extends Controller implements ControllerInterface
 
     /**
      * @param object $request
-     * @return mixed|void
+     * @return mixed
      */
 
     public function controller( object $request )
     {
 
-        if ( $request->method == 'GET' )
-        {
 
-            if ( empty( $_GET ) == false )
-            {
-
-                if ( isset( $_GET['message'] ) )
-                {
-
-                    $this->model->set('message', $_GET['message'] );
-                }
-            }
-        }
     }
 }

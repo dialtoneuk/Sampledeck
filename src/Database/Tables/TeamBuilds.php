@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: lewis
- * Date: 03/03/2018
- * Time: 01:20
+ * Date: 09/03/2018
+ * Time: 01:51
  */
 
 namespace Website\Database\Tables;
@@ -11,17 +11,16 @@ namespace Website\Database\Tables;
 
 use Website\Database\Table;
 
-class Users extends Table
+class TeamBuilds extends Table
 {
 
     /**
-     * Users constructor.
+     * TeamBuilds constructor.
      * @param string $table_name
      */
 
-    public function __construct($table_name = "users")
+    public function __construct($table_name = 'team_builds')
     {
-
         parent::__construct($table_name);
     }
 
@@ -98,19 +97,12 @@ class Users extends Table
     }
 
     /**
-     * @param $userid
-     * @throws \ErrorException
+     * @param $buildid
      */
 
-    public function delete( $userid )
+    public function delete( $buildid )
     {
 
-        if ( $this->has( 'userid', $userid ) == false )
-        {
-
-            throw new \ErrorException();
-        }
-
-        $this->table()->where( 'userid', $userid )->delete();
+        $this->table()->where('buildid', $buildid )->delete();
     }
 }

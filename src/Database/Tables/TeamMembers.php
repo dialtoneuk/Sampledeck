@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: lewis
- * Date: 03/03/2018
- * Time: 01:20
+ * Date: 09/03/2018
+ * Time: 01:51
  */
 
 namespace Website\Database\Tables;
@@ -11,20 +11,62 @@ namespace Website\Database\Tables;
 
 use Website\Database\Table;
 
-class Users extends Table
+class TeamMembers extends Table
 {
 
     /**
-     * Users constructor.
+     * TeamMembers constructor.
      * @param string $table_name
      */
 
-    public function __construct($table_name = "users")
+    public function __construct($table_name = 'team_members')
     {
-
         parent::__construct($table_name);
     }
 
+    /**
+     * @param $teamid
+     * @param $userid
+     * @return bool
+     */
+
+    public function hasUser( $teamid, $userid )
+    {
+
+        $array = [
+            'userid' => $userid,
+            'teamid' => $teamid
+        ];
+
+        $result = $this->table()->where( $array )->get();
+
+        if ( $result->isEmpty() )
+            return false;
+
+        return true;
+    }
+
+    /**
+     * @param $teamid
+     * @param $userid
+     * @return mixed|null
+     */
+
+    public function getUser( $teamid, $userid )
+    {
+
+        $array = [
+            'userid' => $userid,
+            'teamid' => $teamid
+        ];
+
+        $result = $this->table()->where( $array )->get();
+
+        if ( $result->isEmpty() )
+            return null;
+
+        return( $result[0] );
+    }
     /**
      * @param $column
      * @param $value
@@ -98,19 +140,12 @@ class Users extends Table
     }
 
     /**
-     * @param $userid
-     * @throws \ErrorException
+     * @param $memberid
      */
 
-    public function delete( $userid )
+    public function delete( $memberid )
     {
 
-        if ( $this->has( 'userid', $userid ) == false )
-        {
-
-            throw new \ErrorException();
-        }
-
-        $this->table()->where( 'userid', $userid )->delete();
+        $this->table()->where('memberid', $memberid )->delete();
     }
 }

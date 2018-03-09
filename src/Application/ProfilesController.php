@@ -10,7 +10,7 @@ namespace Website\Application;
 
 
 use Website\IO\Crawler;
-use Website\Sessions;
+use Flight;
 
 class ProfilesController
 {
@@ -40,7 +40,7 @@ class ProfilesController
     {
 
         $data = [];
-        $this->session = new Sessions();
+        $this->sessions = Flight::sessions();
 
         foreach ( $profiles as $key=>$profile )
         {
@@ -52,26 +52,17 @@ class ProfilesController
                 {
 
                     if ( session_status() !== PHP_SESSION_ACTIVE )
-                    {
-
                         continue;
-                    }
 
-                    if ( $this->session->valid( session_id() ) == false )
-                    {
-
+                    if ( $this->sessions->valid( session_id() ) == false )
                         continue;
-                    }
                 }
             }
 
             $profile->populate();
 
             if ( empty( $profile->data ) )
-            {
-
                 continue;
-            }
 
             $data[ strtolower( $key ) ] = $profile->data;
         }
@@ -90,10 +81,7 @@ class ProfilesController
         $profiles = $this->getProfilePaths();
 
         if ( empty( $profiles ) )
-        {
-
             return false;
-        }
 
         $classes = new \stdClass();
 
@@ -101,19 +89,13 @@ class ProfilesController
         {
 
             if ( class_exists( $this->getNamespace( $value ) ) == false )
-            {
-
                 throw new \ErrorException('Invalid class: ' . $this->getNamespace( $value ) );
-            }
 
             $namespace = $this->getNamespace( $value );
             $class = new $namespace;
 
             if ( isset( $classes->$value ) )
-            {
-
                 continue;
-            }
 
             $classes->$value = $class;
         }
@@ -131,10 +113,7 @@ class ProfilesController
         $files = $this->crawler->getInDirectory();
 
         if ( empty( $files ) )
-        {
-
             return null;
-        }
 
         foreach ( $files as $key=>$file )
         {

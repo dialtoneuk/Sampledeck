@@ -2,7 +2,7 @@
   "username": "root",
   "password": "",
   "host": "localhost",
-  "database": "syscrack",
+  "database": "unibary",
   "driver": "mysql",
   "charset": "utf8",
   "collation": "utf8_unicode_ci",

@@ -50,10 +50,7 @@ class Sessions extends Table
     {
 
         if ( $this->has( $column, $value ) == false )
-        {
-
             return null;
-        }
 
         $array = [
             $column => $value
@@ -62,10 +59,7 @@ class Sessions extends Table
         $result = $this->table()->where( $array )->get();
 
         if ( $result->isEmpty() )
-        {
-
             return null;
-        }
 
         return( $result[0] );
     }
@@ -83,7 +77,12 @@ class Sessions extends Table
             $column => $value
         ];
 
-        return( $this->table()->where( $array )->get()->isNotEmpty() );
+        $result = $this->table()->where( $array )->get();
+
+        if ( $result->isNotEmpty() )
+            return true;
+
+        return false;
     }
 
     /**

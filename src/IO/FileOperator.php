@@ -25,27 +25,19 @@ class FileOperator
         $file = file_get_contents( self::getRealPath( $file ) );
 
         if( empty( $file ) )
-        {
-
             return [];
-        }
+
 
         if ( $array )
-        {
-
             $data = json_decode( $file, true );
-        }
-        else
-        {
 
+        else
             $data = json_decode( $file );
-        }
+
 
         if ( json_last_error() !== JSON_ERROR_NONE )
-        {
-
             throw new \ErrorException( 'Json error: ' . json_last_error_msg() );
-        }
+
 
         return $data;
     }
@@ -60,16 +52,11 @@ class FileOperator
     {
 
         if ( str_contains( $file, WEBSITE_REALPATH ) )
-        {
-
             $file = str_replace( WEBSITE_REALPATH, '', $file );
-        }
+
 
         if ( defined('WEBSITE_REALPATH') == false )
-        {
-
             throw new \ErrorException();
-        }
 
         return ( WEBSITE_REALPATH . $file );
     }

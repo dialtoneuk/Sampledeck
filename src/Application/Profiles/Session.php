@@ -33,10 +33,7 @@ class Session extends Profile implements ProfileInterface
     {
 
         if ( session_status() !== PHP_SESSION_ACTIVE )
-        {
-
             return false;
-        }
 
         if ( $this->sessions->valid( session_id() ) )
         {
