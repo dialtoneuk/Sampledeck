@@ -11,7 +11,8 @@ namespace Website\Application\Controllers;
 
 use Website\Application\Controller;
 use Website\Application\Interfaces\ControllerInterface;
-use Website\Sessions;
+use Website\Application\Interfaces\ModelInterface;
+use ReCaptcha\ReCaptcha;
 use Flight;
 use Website\Users;
 
@@ -26,8 +27,19 @@ class RegisterController extends Controller implements ControllerInterface
         'username',
         'email',
         'password',
-        'verification'
+        'g-recaptcha-response'
     ];
+
+    protected $google;
+
+    public function __construct(ModelInterface $model)
+    {
+
+        if ( RECAPTCHA_ENABLED )
+            $this->google = new ReCaptcha( "6LfiXk0UAAAAACy27LhF4CzqhoHmU2WXw75XlcOT" );
+
+        parent::__construct($model);
+    }
 
     /**
      * @param object $request
@@ -71,6 +83,19 @@ class RegisterController extends Controller implements ControllerInterface
             $password = $_POST['password'];
             $email = $_POST['email'];
 
+            if ( RECAPTCHA_ENABLED )
+            {
+
+                $response = $this->google->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
+
+                if ( $response->isSuccess() == false )
+                {
+
+                    $this->addError('Failed google verification, try again');
+                    return true;
+                }
+            }
+
             if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) == false )
                 return false;
 
@@ -104,7 +129,7 @@ class RegisterController extends Controller implements ControllerInterface
                 'salt'      => $salt,
                 'email'     => $email,
                 'group'     => DEFAULT_GROUP,
-                'colour'     => dechex(rand(0x000000, 0xFFFFFF))
+                'colour'     => sprintf("%02x%02x%02x", rand(0,255), rand(0,255), rand(0,255))
             ]);
 
             Flight::redirect('login' );

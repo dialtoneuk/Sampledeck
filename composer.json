@@ -23,6 +23,7 @@
     "mashape/unirest-php": "3.*",
     "erusev/parsedown":"*",
     "phpmailer/phpmailer": "~5.2",
-    "google/recaptcha": "~1.1"
+    "google/recaptcha": "~1.1",
+    "sendgrid/sendgrid": "~6.0"
   }
 }

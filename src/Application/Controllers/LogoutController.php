@@ -20,6 +20,7 @@ class LogoutController extends Controller implements ControllerInterface
     /**
      * @param object $request
      * @return bool|mixed
+     * @throws \ErrorException
      */
 
     public function controller( object $request )

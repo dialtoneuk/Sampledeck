@@ -9,9 +9,11 @@
 namespace Website\Application\Controllers;
 
 
+use ReCaptcha\ReCaptcha;
 use Website\Application\Controller;
 use Website\Application\Interfaces\ControllerInterface;
 use Flight;
+use Website\Application\Interfaces\ModelInterface;
 use Website\Sessions;
 use Website\Users;
 
@@ -26,8 +28,19 @@ class LoginController extends Controller implements ControllerInterface
     protected $form_requirements = [
         'username',
         'password',
-        'verification'
+        'g-recaptcha-response'
     ];
+
+    protected $google;
+
+    public function __construct(ModelInterface $model)
+    {
+
+        if ( RECAPTCHA_ENABLED )
+            $this->google = new ReCaptcha( "6LfiXk0UAAAAACy27LhF4CzqhoHmU2WXw75XlcOT" );
+
+        parent::__construct($model);
+    }
 
     /**
      * @param object $request
@@ -69,7 +82,19 @@ class LoginController extends Controller implements ControllerInterface
 
             $username = $_POST['username'];
             $password = $_POST['password'];
-            $verification = $_POST['verification'];
+
+            if ( RECAPTCHA_ENABLED )
+            {
+
+                $response = $this->google->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
+
+                if ( $response->isSuccess() == false )
+                {
+
+                    $this->addError('Failed google verification, try again');
+                    return true;
+                }
+            }
 
             if ( $this->users->checkForUsername( $username ) == false )
             {

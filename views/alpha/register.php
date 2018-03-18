@@ -7,7 +7,7 @@
                 <div class="jumbotron jumbotron-fluid text-center">
                     <div class="container">
                         <h1 class="display-4">Register</h1>
-                        <p class="lead">Don't have an account? <a href="<?=$url_root?>register">Click here to sign up, it only takes a few seconds!</a></p>
+                        <p class="lead">Already have an account? <a href="login">Click here login!</a></p>
                     </div>
                 </div>
             </div>
@@ -30,17 +30,33 @@
                         <label for="password">Password</label>
                         <input type="password" required class="form-control" id="password" name="password" placeholder="Password">
                     </div>
-                    <input type="hidden" value="false" name="verification">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <?php
+                        if ( $recaptcha_enabled )
+                        {
+
+                            ?>
+                            <div class="captcha_wrapper">
+                                <div class="g-recaptcha" data-sitekey="<?=$recaptcha_sitekey?>"></div>
+                            </div>
+                            <?php
+                        }
+                        else
+                        {
+                            ?>
+                            <input type="hidden" name="g-recaptcha-response" value="false">
+                            <?php
+                        }
+                    ?>
+                    <button type="submit" style="margin-top: 1.5%;" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
         <?php
-        if ( isset( $page_breadcrumb ) )
-        {
+            if ( isset( $page_breadcrumb ) )
+            {
 
-            echo $page_breadcrumb;
-        };
+                echo $page_breadcrumb;
+            };
         ?>
     </div>
     <?=$page_footer?>

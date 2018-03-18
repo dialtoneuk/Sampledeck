@@ -25,8 +25,27 @@
                         <label for="password">Password</label>
                         <input type="password" required class="form-control" id="password" name="password" placeholder="Password">
                     </div>
+
+                    <?php
+                        if ( $recaptcha_enabled )
+                        {
+
+                            ?>
+                                <div class="captcha_wrapper">
+                                    <div class="g-recaptcha" data-sitekey="<?=$recaptcha_sitekey?>"></div>
+                                </div>
+                            <?php
+                        }
+                        else
+                        {
+                            ?>
+                                <input type="hidden" name="g-recaptcha-response" value="false">
+                            <?php
+                        }
+                    ?>
+
                     <input type="hidden" value="false" name="verification">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" style="margin-top: 1.5%;" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>

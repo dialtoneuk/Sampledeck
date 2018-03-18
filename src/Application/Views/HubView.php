@@ -14,7 +14,7 @@ use Website\Application\Interfaces\ViewInterface;
 use Flight;
 use Website\Sessions;
 
-class IndexView implements ViewInterface
+class HubView implements ViewInterface
 {
 
     protected $model;
@@ -35,8 +35,6 @@ class IndexView implements ViewInterface
     public function view()
     {
 
-        $content = "index_default";
-
         return(
             [
                 "templates/footer" => [
@@ -55,11 +53,7 @@ class IndexView implements ViewInterface
                     [],
                     'page_breadcrumb'
                 ],
-                "templates/content/" . $content =>[
-                    [],
-                    'index_content'
-                ],
-                'index'
+                'hub'
             ]
         );
     }

@@ -50,7 +50,8 @@ define('FLIGHT_VIEWS_FOLDER', 'alpha');
 define('WEBSITE_URL_ROOT', '/sampledeck/');
 define('WEBSITE_NAME','Unibary');
 define('DEFAULT_GROUP',1);
-
+define('ADMIN_GROUP',2);
+define('DEV_GROUP',3);
 /**
  * ==============================================================================
  */
@@ -71,6 +72,18 @@ define('WEBSITE_APPLICATION_NAMESPACE', 'Website\\Application\\');
 define('WEBSITE_PROFILES', true );
 define('GLOBAL_PROFILES', true );
 define('DIRECTORY', '/');
+
+/**
+ * ==============================================================================
+ */
+
+/**
+ * Google recaptcha
+ * ==============================================================================
+ */
+
+define('SITE_KEY', '6LfiXk0UAAAAAEbbooiKPzwRH47kl1wmKMVVbjQ0');
+define('RECAPTCHA_ENABLED', true );
 
 /**
  * ==============================================================================
@@ -259,6 +272,8 @@ try
 
                         Flight::view()->set('url_root', WEBSITE_URL_ROOT );
                         Flight::view()->set('website_name', WEBSITE_NAME );
+                        Flight::view()->set('recaptcha_enabled', RECAPTCHA_ENABLED );
+                        Flight::view()->set('recaptcha_sitekey', SITE_KEY );
                         Flight::view()->set('load_time', ( Flight::get('timeend') - Flight::get('timestart') ) / 60 * 60 * 24 );
 
                         /**

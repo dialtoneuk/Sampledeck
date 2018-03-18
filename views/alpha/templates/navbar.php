@@ -10,6 +10,9 @@
                 {
                     ?>
                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="hub">Hub</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Builds
@@ -49,7 +52,7 @@
                                 ?>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Team
+                                            Team <span class="badge badge-primary" style="background-color: #<?=$profiles->teams->info->colour?>;"><?=$profiles->teams->info->name?></span>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" href="#">Builds</a>
@@ -57,12 +60,12 @@
 
                                             <?php
 
-                                                if ( $profiles->teams->info->owner == $profiles->session->info->userid )
+                                                if ( $profiles->teams->info->group == ADMIN_GROUP )
                                                 {
 
                                                     ?>
                                                         <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#">manage</a>
+                                                        <a class="dropdown-item" href="#">Manage</a>
                                                     <?php
                                                 }
                                             ?>
@@ -90,7 +93,7 @@
                     <ul class="navbar-nav" style="margin-left: auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <?=$profiles->user->info->username?>
+                                Account <span class="badge badge-primary" style="background-color: #<?=$profiles->user->info->colour?>;"><?=$profiles->user->info->username?></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="settings">Settings</a>
@@ -107,7 +110,10 @@
                     ?>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?=$url_root?>login">Login</a>
+                            <a class="nav-link" href="login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="register">Register</a>
                         </li>
                     </ul>
                     <?php

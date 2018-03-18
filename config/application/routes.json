@@ -4,6 +4,11 @@
       "model":"IndexModel",
       "view":"IndexView"
     },
+    "/hub": {
+      "controller": "HubController",
+      "model":"HubModel",
+      "view":"HubView"
+    },
     "/login": {
       "controller": "LoginController",
       "model":"IndexModel",

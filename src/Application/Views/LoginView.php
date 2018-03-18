@@ -33,7 +33,12 @@ class LoginView implements ViewInterface
                     'page_footer'
                 ],
                 "templates/header" => [
-                    [ 'page_title' => 'Website' ],
+                    [
+                        'page_title' => 'Login',
+                        'custom_scripts' => [
+                            "<script src='https://www.google.com/recaptcha/api.js'></script>"
+                        ]
+                    ],
                     'page_header'
                 ],
                 "templates/navbar" => [

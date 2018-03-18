@@ -9,7 +9,7 @@
 <div class="col-sm-12">
     <div class="row">
         <div class="col-sm-4">
-            <div class="card" style="height: 15rem;">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-users"></i> Build teams</h5>
                     <p class="card-text">Unibary allows you to create a group accessible repository for your development builds
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="card" style="height: 15rem;">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-globe"></i> Play & Share your creations</h5>
                     <p class="card-text">Unibary allows for direct play testing inside your web browser, as long as
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="card" style="height: 15rem;">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-globe"></i> Up to 20 Builds included free</h5>
                     <p class="card-text">Unibary users are able to create teams, upload up to 20 builds and obtain

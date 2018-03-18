@@ -11,6 +11,7 @@ namespace Website\Application\Controllers;
 
 use Website\Application\Controller;
 use Website\Application\Interfaces\ControllerInterface;
+use Flight;
 
 class IndexController extends Controller implements ControllerInterface
 {
@@ -22,7 +23,6 @@ class IndexController extends Controller implements ControllerInterface
 
     public function controller( object $request )
     {
-
 
     }
 }
