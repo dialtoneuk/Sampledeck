@@ -29,6 +29,11 @@ class Builds
         $this->database = new Database();
     }
 
+    /**
+     * @param $userid
+     * @return bool
+     */
+
     public function hasBuilds( $userid )
     {
 
@@ -38,10 +43,14 @@ class Builds
         return true;
     }
 
+    /**
+     * @param $userid
+     * @return \Illuminate\Support\Collection
+     */
+
     public function getBuilds( $userid )
     {
 
         return $this->database->get('userid', $userid );
     }
-
 }

@@ -8,21 +8,19 @@
                     <div class="jumbotron jumbotron-fluid text-center">
                         <div class="container">
                             <h1 class="display-4">Hub</h1>
-                            <p class="lead"><?=$profiles->user->info->username?></p>
-                            <p class="small"><a href="/settings"><?=$profiles->user->info->email?></a></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="padding-bottom: 24px;">
                 <div class="col-sm-12">
                     <h3>
                         Your Builds
                         <small class="text-muted">Ordered by the latest you have uploaded</small>
                     </h3>
                     <?php
-                        if ( isset( $model->builds ) && $model->builds !== null )
-                        {
+                    if ( isset( $model->builds ) && $model->builds !== null )
+                    {
 
                         $counter = 0;
 
@@ -35,30 +33,38 @@
                                 if ( $counter == 0 )
                                 {
 
-                                    ?>
-                                        <div class="row">
-                                    <?php
+                                        echo '<div class="row">';
                                 }
                                 else
                                 {
 
-                                    ?>
-                                        <div class="row" style="margin-top: 1.5%;">
-                                    <?php
+                                        echo '<div class="row" style="margin-top: 24px;">';
                                 }
                             }
                             ?>
-                            <div class="col-sm-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?=$build->name?> <small><?=date('d/m/y', $build->timestamp)?> by <span class="badge badge-primary" style="background-color: #<?=$profiles->user->info->colour?>;"><?=$profiles->user->info->username?></span></small></h5>
-                                        <p class="card-text">
-                                            <?=$build->description?>
-                                        </p>
-                                        <a href="#" class="btn btn-primary">Play</a>
+                                <div class="col-sm-4">
+                                    <div class="card" style="height: 12.5em;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="overflow: hidden; white-space: nowrap;  text-overflow: ellipsis; width: 95%;">
+                                                <?=$build->name?>
+                                            </h5>
+                                            <p>
+                                                <small>
+                                                    <?=date('d/m/y h:i:sA', $build->timestamp)?> by
+                                                    <span class="badge badge-primary" style="background-color: #<?=$profiles->user->info->colour?>;">
+                                                    <?=$profiles->user->info->username?>
+                                                </span>
+                                                </small>
+                                            </p>
+                                            <p class="card-text" style="overflow: hidden; white-space: nowrap;  text-overflow: ellipsis; height: 2em;">
+                                                <?=$build->description?>
+                                            </p>
+                                            <a href="play/<?=$build->buildid?>" class="btn btn-success"><i class="fas fa-play"></i> Play</a>
+                                            <a href="edit/<?=$build->buildid?>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                            <a href="edit/<?=$build->buildid?>" class="btn btn-outline-info" style="float: right;"><i class="fas fa-link"></i> Share</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php
 
                             if ( $counter % 2 == 0 )
@@ -66,10 +72,15 @@
 
                                 if ( $counter != 0)
                                 {
-                                    ?>
-                                        </div>
-                                    <?php
+
+                                    echo '</div>';
                                 }
+                            }
+
+                            if ( $counter == count( $model->builds ) - 1 )
+                            {
+
+                                echo '</div>';
                             }
 
                             $counter++;
@@ -88,16 +99,16 @@
                         <?php
                     }
                     ?>
-                    </div>
                 </div>
-                <?php
-                    if ( isset( $page_breadcrumb ) )
-                    {
-
-                        echo $page_breadcrumb;
-                    };
-                ?>
             </div>
+            <?php
+                if ( isset( $page_breadcrumb ) )
+                {
+
+                    echo $page_breadcrumb;
+                }
+            ?>
+        </div>
     </body>
     <?=$page_footer?>
 </html>

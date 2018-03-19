@@ -48,7 +48,7 @@ class HubController extends Controller implements ControllerInterface
     /**
      * @param object $request
      * @return bool|mixed
-     * @throws \Error
+     * @throws \ErrorException
      */
 
     public function controller( object $request )
@@ -69,7 +69,7 @@ class HubController extends Controller implements ControllerInterface
             $userid = $this->sessions->get( session_id() )->userid;
 
             if ( empty( $userid ) )
-                throw new \Error();
+                throw new \ErrorException();
 
             if ( $this->teams->isInTeam( $userid ) )
             {
@@ -80,7 +80,7 @@ class HubController extends Controller implements ControllerInterface
             if ( $this->builds->hasBuilds( $userid ) )
             {
 
-                $this->model->builds( $this->builds->getBuilds( $userid ) );
+                $this->model->builds( $this->builds->getBuilds( $userid )->reverse() );
             }
 
             return true;

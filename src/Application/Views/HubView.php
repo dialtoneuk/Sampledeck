@@ -42,7 +42,9 @@ class HubView implements ViewInterface
                     'page_footer'
                 ],
                 "templates/header" => [
-                    [ 'page_title' => 'Website' ],
+                    [
+                        'page_title' => WEBSITE_NAME
+                    ],
                     'page_header'
                 ],
                 "templates/navbar" => [

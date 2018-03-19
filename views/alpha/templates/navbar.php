@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-top: 15px; border-radius: 5px;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="margin-top: 15px; border-radius: 5px 5px 0px 0px;">
             <a class="navbar-brand" href="<?=$url_root?>"><?=$website_name?></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -110,10 +110,18 @@
                     ?>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="login">Login</a>
+                            <a class="nav-link" href="register">Features</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="register">Register</a>
+                            <a class="nav-link" href="login">Pricing</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav" style="margin-left: auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="register" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="fas fa-star"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="fas fa-home"></i></a>
                         </li>
                     </ul>
                     <?php

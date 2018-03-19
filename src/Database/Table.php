@@ -29,6 +29,7 @@ class Table
     /**
      * Table constructor.
      * @param null $table_name
+     * @throws \Error
      */
 
     public function __construct( $table_name=null )
@@ -37,7 +38,13 @@ class Table
         $this->dbconnection = Flight::dbconnection()->get();
 
         if ( $table_name == null )
+        {
+
+            if ( empty( get_called_class() ) )
+                throw new \ErrorException('Cannot auto assume table name');
+
             $table_name = get_called_class();
+        }
 
         $this->table_name = $table_name;
     }

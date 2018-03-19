@@ -10,7 +10,6 @@ namespace Website;
 
 use Illuminate\Database\Eloquent\Collection;
 use Website\Database\Tables\Team as DatabaseTeam;
-use Website\Database\Tables\Team;
 use Website\Database\Tables\TeamMembers as DatabaseTeamMember;
 use Website\Database\Tables\TeamBuilds as DatabaseTeamBuilds;
 
@@ -21,12 +20,16 @@ class Teams
      * @var array
      */
 
-    protected $database = [];
+    protected $databases = [];
+
+    /**
+     * Teams constructor.
+     */
 
     public function __construct()
     {
 
-        $this->database = [
+        $this->databases = [
             'team'      => new DatabaseTeam(),
             'members'   => new DatabaseTeamMember(),
             'builds'    => new DatabaseTeamBuilds()
@@ -41,7 +44,7 @@ class Teams
     public function exists( $teamid )
     {
 
-        return( $this->database['team']->has("teamid", $teamid ) );
+        return( $this->getTeamDatabase()->has("teamid", $teamid ) );
     }
 
     /**
@@ -56,7 +59,7 @@ class Teams
          * @var $result Collection
          */
 
-        $result = $this->database['members']->get('teamid', $teamid );
+        $result = $this->getMembersDatabase()->get('teamid', $teamid );
 
         if ( $result->isEmpty() )
             return false;
@@ -73,7 +76,7 @@ class Teams
     public function isMember( $teamid, $userid )
     {
 
-        return ( $this->database['members']->hasUser( $teamid, $userid ));
+        return ( $this->getMembersDatabase()->hasUser( $teamid, $userid ));
     }
 
     /**
@@ -87,13 +90,7 @@ class Teams
     public function isInTeam( $userid )
     {
 
-        /**
-         * @var $database Team
-         */
-
-        $database = $this->database['team'];
-
-        if ( $database->has('userid', $userid ) == false )
+        if ( $this->getTeamDatabase()->has('userid', $userid ) == false )
             return false;
 
         return true;
@@ -108,7 +105,7 @@ class Teams
     public function isAdmin( $teamid, $userid )
     {
 
-        $result = $this->database['members']->getUser( $teamid, $userid );
+        $result = $this->getMembersDatabase()->getUser( $teamid, $userid );
 
         if ( empty( $result ) )
             return false;
@@ -120,21 +117,13 @@ class Teams
     }
 
     /**
-     * Gets all the teams
-     *
      * @return \Illuminate\Support\Collection
      */
 
     public function getTeams()
     {
 
-        /**
-         * @var $database Team
-         */
-
-        $database = $this->database['team'];
-
-        return $database->all();
+        return $this->getTeamDatabase()->all();
     }
 
     /**
@@ -145,32 +134,52 @@ class Teams
     public function getUserTeam( $userid )
     {
 
-        /**
-         * @var $database Team
-         */
-
-        $database = $this->database['team'];
-
-        return $database->first('userid', $userid );
+        return $this->getTeamDatabase()->first('userid', $userid );
     }
 
     /**
      * @param $teamid
-     * @return Collection|null
-
+     * @return \Illuminate\Support\Collection|null
      */
+
     public function getBuilds( $teamid )
     {
 
-        /**
-         * @var $result Collection
-         */
-
-        $result = $this->database['builds']->get('teamid', $teamid );
+        $result = $this->getBuildsDatabase()->get('teamid', $teamid );
 
         if ( $result->isEmpty() )
             return null;
 
         return $result;
+    }
+
+    /**
+     * @return DatabaseTeam
+     */
+
+    private function getTeamDatabase()
+    {
+
+        return ( $this->databases['team'] );
+    }
+
+    /**
+     * @return DatabaseTeamMember
+     */
+
+    private function getMembersDatabase()
+    {
+
+        return ( $this->databases['members'] );
+    }
+
+    /**
+     * @return DatabaseTeamBuilds
+     */
+
+    private function getBuildsDatabase()
+    {
+
+        return ( $this->databases['builds'] );
     }
 }

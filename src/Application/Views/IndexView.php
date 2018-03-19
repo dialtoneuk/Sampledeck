@@ -35,7 +35,10 @@ class IndexView implements ViewInterface
     public function view()
     {
 
-        $content = "index_default";
+        if ( $this->sessions->valid( session_id() ) )
+            $content = "index_user";
+        else
+            $content = "index_guest";
 
         return(
             [
@@ -44,7 +47,9 @@ class IndexView implements ViewInterface
                     'page_footer'
                 ],
                 "templates/header" => [
-                    [ 'page_title' => 'Website' ],
+                    [
+                        'page_title' => WEBSITE_NAME
+                    ],
                     'page_header'
                 ],
                 "templates/navbar" => [

@@ -40,7 +40,6 @@ class LogoutController extends Controller implements ControllerInterface
             $this->sessions->delete( session_id() );
 
             session_regenerate_id( true );
-
             session_destroy();
 
             Flight::redirect( '/' );

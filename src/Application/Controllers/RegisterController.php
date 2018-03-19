@@ -22,21 +22,23 @@ class RegisterController extends Controller implements ControllerInterface
     /**
      * @var $users Users
      */
-    protected $users;
-    protected $form_requirements = [
-        'username',
-        'email',
-        'password',
-        'g-recaptcha-response'
-    ];
 
-    protected $google;
+    protected $users;
+
+    /**
+     * RegisterController constructor.
+     * @param ModelInterface $model
+     */
 
     public function __construct(ModelInterface $model)
     {
 
-        if ( RECAPTCHA_ENABLED )
-            $this->google = new ReCaptcha( "6LfiXk0UAAAAACy27LhF4CzqhoHmU2WXw75XlcOT" );
+        $this->users = new Users();
+        $this->setRequirements([
+            'username',
+            'password',
+            'email'
+        ]);
 
         parent::__construct($model);
     }
@@ -50,96 +52,128 @@ class RegisterController extends Controller implements ControllerInterface
     {
 
         $this->sessions = Flight::sessions();
-        $this->users = new Users();
 
         if ( $this->sessions->valid( session_id() ) )
         {
 
             Flight::redirect(WEBSITE_URL_ROOT );
-            return true;
-        }
-
-
-        if ( $request->method == 'POST' )
-        {
-
-            if ( empty( $_POST ) )
-                return false;
-
-            $this->cleanInput();
-
-            foreach ( $this->form_requirements as $value )
-            {
-
-                if ( isset( $_POST[ $value ] ) == false )
-                {
-
-                    $this->addError('Please enter all the information required');
-                    return true;
-                }
-            }
-
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-
-            if ( RECAPTCHA_ENABLED )
-            {
-
-                $response = $this->google->verify( $_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
-
-                if ( $response->isSuccess() == false )
-                {
-
-                    $this->addError('Failed google verification, try again');
-                    return true;
-                }
-            }
-
-            if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) == false )
-                return false;
-
-            if ( $this->usernameTaken( $username ) )
-            {
-
-                $this->addError('Sorry, that username is taken. Please pick another one!');
-                return true;
-            }
-
-            if ( $this->checkPassword( $password ) == false )
-            {
-
-                $this->addError('Sorry, that password is too weak. Pick a more complex one!');
-                return true;
-            }
-
-            if ( $this->checkEmail( $email ) == false )
-            {
-
-                $this->addError('Sorry, that email is already tied to an account. Try resetting your password.');
-                return true;
-            }
-
-            $salt = $this->getSalt();
-            $password = $this->hashPassword( $password, $salt );
-
-            $this->users->insert([
-                'username'  => $username,
-                'password'  => $password,
-                'salt'      => $salt,
-                'email'     => $email,
-                'group'     => DEFAULT_GROUP,
-                'colour'     => sprintf("%02x%02x%02x", rand(0,255), rand(0,255), rand(0,255))
-            ]);
-
-            Flight::redirect('login' );
         }
         else
         {
 
-            return true;
+            if ( $request->method == 'POST' )
+            {
+
+                if ( empty( $_POST ) )
+                    return false;
+
+                $this->cleanInput();
+
+                if ( $this->checkRequirements() == false )
+                    return false;
+
+                if ( $this->isRecaptchaEnabled() )
+                {
+
+                    if ( $this->hasRecaptchaResponse() == false )
+                    {
+
+                        $this->addError('No recaptcha response found, please try again.');
+                        return true;
+                    }
+                    else
+                    {
+
+                        if ( $this->verifyRecaptcha( $_POST['g-recaptcha-response'] ) == false  )
+                        {
+
+                            $this->addError('Failed recaptcha, try again.');
+                            return true;
+                        }
+                    }
+                }
+
+                $data = $this->getRequirements();
+
+                if ( $this->usernameTaken( $data->username ) )
+                {
+
+                    $this->addError('Sorry, that username is taken. Please pick another one!');
+                    return true;
+                }
+
+                if ( preg_match("/\d/",  $data->username ) === 0 || str_contains( $data->username, " " ) )
+                {
+
+                    $this->addError('Sorry, that username is invalid. Please pick another one!');
+                    return true;
+                }
+
+                $this->addFormValue('username', $data->username );
+
+                if ( filter_var( $data->email, FILTER_VALIDATE_EMAIL ) == false )
+                {
+
+                    $this->addError('Please enter a valid email address');
+                    return true;
+                }
+
+                if ( $this->checkEmail( $data->email ) == false )
+                {
+
+                    $this->addError('Sorry, that email is already tied to an account. Try resetting your password.');
+                    return true;
+                }
+
+                $this->addFormValue('email', $data->email );
+
+                if ( $this->checkPassword( $data->password ) == false )
+                {
+
+                    $this->addError('Sorry, that password is too weak. It will need to be longer than '
+                        . PASSWORD_MIN_LENGTH
+                        . ' characters and contain a special character ('
+                        . "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+                        . ") It also can't contain any spaces."
+                    );
+
+                    if ( PASSWORD_STRICT )
+                    {
+
+                        $this->addError('Passwords will also need to contain a capital letter, and a number for added security');
+                    }
+
+                    return true;
+                }
+
+                $salt = $this->getSalt();
+                $password = $this->hashPassword( $data->password, $salt );
+
+                $this->users->insert([
+                    'username'  => $data->username,
+                    'password'  => $password,
+                    'salt'      => $salt,
+                    'email'     => $data->email,
+                    'group'     => DEFAULT_GROUP,
+                    'colour'     => sprintf("%02x%02x%02x", rand(0,255), rand(0,255), rand(0,255))
+                ]);
+
+                Flight::redirect('login' );
+            }
+            else
+            {
+
+                return true;
+            }
         }
+
+        return true;
     }
+
+    /**
+     * @param $email
+     * @return bool
+     */
 
     private function checkEmail( $email )
     {
@@ -153,11 +187,21 @@ class RegisterController extends Controller implements ControllerInterface
         return true;
     }
 
+    /**
+     * @return string
+     */
+
     private function getSalt()
     {
 
-        return base64_encode( openssl_random_pseudo_bytes(16) );
+        return base64_encode( openssl_random_pseudo_bytes(SALT_LENGTH ) );
     }
+
+    /**
+     * @param $password
+     * @param $salt
+     * @return string
+     */
 
     private function hashPassword( $password, $salt )
     {
@@ -165,17 +209,49 @@ class RegisterController extends Controller implements ControllerInterface
         return sha1( $password . $salt );
     }
 
+    /**
+     * @param $password
+     * @return bool
+     */
+
     private function checkPassword( $password )
     {
 
-        if ( strlen( $password ) <= 8 )
+        if ( strlen( $password ) <= PASSWORD_MIN_LENGTH )
         {
 
             return false;
         }
 
+        if ( str_contains( $password, " " ) )
+        {
+
+            return false;
+        }
+
+        if ( PASSWORD_STRICT )
+        {
+
+            if ( preg_match( "/[A-Z]/", $password ) === 0 )
+            {
+
+                return false;
+            }
+
+            if ( preg_match("/\d/",  $password ) === 0 )
+            {
+
+                return false;
+            }
+        }
+
         return true;
     }
+
+    /**
+     * @param $username
+     * @return bool
+     */
 
     private function usernameTaken( $username )
     {
